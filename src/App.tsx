@@ -125,7 +125,7 @@ export default function App() {
         {tab === 'check' && <section className="editor-card">
           <div className="editor-heading"><span className="section-icon"><RefreshCw size={18}/></span><div><h2>Money Check</h2><p>Update the numbers. Keep it simple.</p></div></div>
           <div className="field-grid"><label>Current balance ($)<input type="number" min="0" value={balance} onChange={e=>setBalance(e.target.value)}/></label><label>Days until payday<input type="number" min="0" value={days} onChange={e=>setDays(e.target.value)}/></label><label>Unpaid bills ($)<input type="number" min="0" value={bills} onChange={e=>setBills(e.target.value)}/></label><label>Safety buffer ($)<input type="number" min="0" value={buffer} onChange={e=>setBuffer(e.target.value)}/></label><label>Goal reservation ($)<input type="number" min="0" value={reserved} onChange={e=>setReserved(e.target.value)}/></label></div>
-          <div className="privacy-note"><ShieldCheck size={17}/><span>Your numbers stay in this demo session. Nothing is connected to your bank.</span></div>
+          <div className="privacy-note"><ShieldCheck size={17}/><span>Your numbers are saved only in this browser on this device. Nothing is connected to your bank.</span></div>
           <button className="primary-button" onClick={()=>{setCheckedAt(new Date());setTab('today')}}><Check size={17}/> Save my check</button>
         </section>}
 
