@@ -1,21 +1,52 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ArrowDownLeft, ArrowUpRight, CalendarDays, Check, ChevronRight, CircleHelp, Clock3, CreditCard, Flame, Goal, House, Plus, RefreshCw, ShieldCheck, Sparkles, Wallet } from 'lucide-react'
 
 type Tab = 'today' | 'goal' | 'check'
+type SavedMoneyState = {
+  balance: string; bills: string; buffer: string; reserved: string; days: string;
+  goalName: string; goalTarget: string; goalSaved: string; checkedAt: string;
+}
+const STORAGE_KEY = 'moneymaker-core-v1'
+const DEFAULTS: SavedMoneyState = {
+  balance: '640', bills: '120', buffer: '100', reserved: '150', days: '15',
+  goalName: 'Weekend escape', goalTarget: '350', goalSaved: '150',
+  checkedAt: new Date().toISOString(),
+}
+function readSavedState(): SavedMoneyState {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    return saved ? { ...DEFAULTS, ...JSON.parse(saved) } : DEFAULTS
+  } catch {
+    return DEFAULTS
+  }
+}
 const money = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('today')
-  const [balance, setBalance] = useState('640')
-  const [bills, setBills] = useState('120')
-  const [buffer, setBuffer] = useState('100')
-  const [reserved, setReserved] = useState('150')
-  const [days, setDays] = useState('15')
-  const [goalName, setGoalName] = useState('Weekend escape')
-  const [goalTarget, setGoalTarget] = useState('350')
-  const [goalSaved, setGoalSaved] = useState('150')
-  const [checkedAt, setCheckedAt] = useState(new Date())
+  const [savedState] = useState<SavedMoneyState>(readSavedState)
+  const [balance, setBalance] = useState(savedState.balance)
+  const [bills, setBills] = useState(savedState.bills)
+  const [buffer, setBuffer] = useState(savedState.buffer)
+  const [reserved, setReserved] = useState(savedState.reserved)
+  const [days, setDays] = useState(savedState.days)
+  const [goalName, setGoalName] = useState(savedState.goalName)
+  const [goalTarget, setGoalTarget] = useState(savedState.goalTarget)
+  const [goalSaved, setGoalSaved] = useState(savedState.goalSaved)
+  const [checkedAt, setCheckedAt] = useState(() => new Date(savedState.checkedAt))
   const [showSettings, setShowSettings] = useState(false)
+
+  useEffect(() => {
+    const state: SavedMoneyState = {
+      balance, bills, buffer, reserved, days, goalName, goalTarget, goalSaved,
+      checkedAt: checkedAt.toISOString(),
+    }
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    } catch {
+      // The app remains usable even if browser storage is unavailable.
+    }
+  }, [balance, bills, buffer, reserved, days, goalName, goalTarget, goalSaved, checkedAt])
 
   const calc = useMemo(() => {
     const b = Math.max(0, Number(balance) || 0)
