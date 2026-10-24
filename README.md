@@ -14,6 +14,12 @@
 
 ---
 
+## Live demo
+
+**Try the MoneyMaker concept:** https://future-by-fie.github.io/MoneyMaker/
+
+Explore a daily spending estimate, adjust the example numbers, and set a savings goal. This is a browser-based concept demo using sample values; it does not connect to a bank or move money.
+
 ## ☀️ The weather forecast for your wallet
 
 **420 kr to spend today.**
