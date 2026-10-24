@@ -25,7 +25,7 @@ npm run preview
 ```
 
 ## Important limitations
-This is an early front-end prototype. Values are sample/demo data held in React state and are not persisted between reloads. It does not connect to a bank, process payments, authenticate users, or provide financial advice. Currency is currently shown in USD for demo purposes.
+This is an early front-end prototype. Values are sample/demo data stored locally in the browser and persist between visits on the same browser/device. It does not connect to a bank, process payments, authenticate users, or provide financial advice. Currency is currently shown in USD for demo purposes.
 
 ## Product principle
 “MoneyMaker should feel like checking the weather for your wallet — not doing your taxes.”
